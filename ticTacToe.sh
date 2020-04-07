@@ -28,7 +28,19 @@ function assignNoughtOrCross() {
 	fi
 }
 
+#checking who play first in game
+function checkWhoPlayFirst() {
+	turn=$((RANDOM%2))
+	if [ $turn -eq 0 ];
+	then
+		echo "Player Play First"
+	else
+		echo "Computer Play First"
+	fi
+}
+
 resetBoard
 echo ${playBoard[@]}
 assignNoughtOrCross
 echo "player:"$player
+checkWhoPlayFirst
