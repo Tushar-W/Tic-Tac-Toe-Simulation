@@ -39,8 +39,20 @@ function checkWhoPlayFirst() {
 	fi
 }
 
+#display play board
+function displayBoard() {
+	echo " Play Board "
+	echo "---------"
+	for((count=1; count<10; count++))
+	do
+		echo "${playBoard[$count]} | ${playboard[$((count++))]} | ${playBoard[$((count++))]}"
+		echo "---------"
+	done
+}
+
 resetBoard
 echo ${playBoard[@]}
 assignNoughtOrCross
 echo "player:"$player
 checkWhoPlayFirst
+displayBoard
