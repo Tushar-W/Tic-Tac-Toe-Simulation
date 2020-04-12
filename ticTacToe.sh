@@ -13,6 +13,7 @@ checkWin=0
 player=""
 computer=""
 pos=1
+corner=0
 
 #get random position between 1 to 9
 function getPosition() {
@@ -123,15 +124,19 @@ function isAvailableCorner() {
 	if [[ ${playBoard[1]} == " " ]];
 	then
 		comPos=1
+		corner=1
 	elif [[ ${playBoard[3]} == " " ]];
 	then
 		comPos=3
+		corner=1
 	elif [[ ${playBoard[7]} == " " ]];
 	then
 		comPos=7
+		corner=1
 	elif [[ ${playBoard[9]} == " " ]];
 	then
 		comPos=9
+		corner=1
 	fi
 }
 
@@ -171,8 +176,11 @@ function computerTurn() {
 	elif [ $pos -lt 4 ];
 	then
 		isAvailableCorner
-	else
+	elif [ $corner -eq 0 ];
+	then
 		isCentreAvailable
+	else
+		getPosition
 	fi
 	echo "Computer Position" $comPos
 	checkPositionAvailable $comPos $computer
