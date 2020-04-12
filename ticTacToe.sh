@@ -1,9 +1,8 @@
 #!/bin/bash -x
 
 echo "Welcome To Tic-Tac-Toe Simulation"
-#declaration of dictionaries
-declare -A computerBoard
 #declaration of array
+declare -a computerBoard
 declare -a playBoard
 #CONSTANTS
 NOUGHT="O"
@@ -69,15 +68,15 @@ function checkingColumn() {
 
 #checking winner at diagonal
 function checkingDiagonal() {
-		if [[ ${playBoard[1]} == $letter ]] && [[ ${playBoard[5]} == $letter ]] && [[ ${playBoard[9]} == $letter ]]
-		then
-			echo "$name Is Win"
-			checkWin=1
-		elif [[ ${playBoard[3]} == $letter ]] && [[ ${playBoard[5]} == $letter ]] && [[ ${playBoard[7]} == $letter ]]
-		then
-			echo "$name Is win"
-			checkWin=1
-		fi
+	if [[ ${playBoard[1]} == $letter ]] && [[ ${playBoard[5]} == $letter ]] && [[ ${playBoard[9]} == $letter ]]
+	then
+		echo "$name Is Win"
+		checkWin=1
+	elif [[ ${playBoard[3]} == $letter ]] && [[ ${playBoard[5]} == $letter ]] && [[ ${playBoard[7]} == $letter ]]
+	then
+		echo "$name Is win"
+		checkWin=1
+	fi
 }
 
 #checking winner
@@ -91,14 +90,14 @@ function checkWinner() {
 
 #check Position Available
 function checkPositionAvailable() {
-		position=$1
-		if [[ ${playBoard[$position]} == " " ]];
-		then
-			playBoard[position]=$2
-		else
-			echo "Please Enter Valid Position"
-			switchPlayer
-		fi
+	position=$1
+	if [[ ${playBoard[$position]} == " " ]];
+	then
+		playBoard[position]=$2
+	else
+		echo "Please Enter Valid Position"
+		switchPlayer
+	fi
 }
 
 #player turn
@@ -109,6 +108,23 @@ function playerTurn() {
 	displayBoard
 	checkWinner $player "Player"
 	number=1
+}
+
+#check is available corner in play board
+function isAvailableCorner() {
+	if [[ ${computerBoard[1]} == " " ]];
+	then
+		comPos=1
+	elif [[ ${computerBoard[3]} == " " ]];
+	then
+		comPos=3
+	elif [[ ${computerBoard[7]} == " " ]];
+	then
+		comPos=7
+	elif [[ ${computerBoard[9]} == " " ]];
+	then
+		comPos=9
+	fi
 }
 
 #computer moving To Winning Position
@@ -145,7 +161,7 @@ function computerTurn() {
 	then
 		moveToPosition
 	else
-		getPosition
+		isAvailableCorner
 	fi
 	echo "Computer Position" $comPos
 	checkPositionAvailable $comPos $computer
