@@ -96,6 +96,7 @@ function checkPositionAvailable() {
 
 #player turn
 function playerTurn() {
+	echo "Player Turn"
 	read -p "Enter Position:" position
 	checkPositionAvailable $position $player
 	displayBoard
@@ -105,6 +106,7 @@ function playerTurn() {
 
 #computer turn
 function computerTurn() {
+		echo "Computer Turn"
 		comPos=$((RANDOM%9 + 1))
 		echo "Computer Position" $comPos
 		checkPositionAvailable $comPos $computer
@@ -117,10 +119,8 @@ function computerTurn() {
 function switchPlayer() {
 	if [ $number -eq 0 ];
 	then
-		echo "Player turn"
 		playerTurn
 	else
-		echo "Computer Turn"
 		computerTurn
 	fi
 }
