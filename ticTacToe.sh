@@ -13,11 +13,16 @@ TOTAL_CELLS=10
 checkWin=0
 player=""
 computer=""
+pos=1
 
+#get random position between 1 to 9
+function getPosition() {
+	comPos=$((RANDOM%9 + 1))
+}
 
 #checking is game tie
 function isGameTie() {
-	if [ $i -eq $TOTAL_CELLS ];
+	if [ $i -eq $((TOTAL_CELLS-1)) ];
 	then
 		echo "Game Is Tie"
 	fi
@@ -111,37 +116,42 @@ function moveToPosition() {
 	j=1
 	while [ true ]
 	do
-		comPos=$((RANDOM%9 + 1))
+		getPosition
 		if [[ ${computerBoard[$j]} != $comPos ]] && [[ ${computerBoard[$j+1]} != $comPos ]]
 		then
-			echo "Computer Position" $comPos
-			checkPositionAvailable $comPos $computer
 			break
 		fi
 	done
 }
 
-#computer check if he can win then play that move
-function checkIsComputerMoveToWin() {
-	count=1
+#computer check if who can win then play that move
+function checkWhoIsMoveToWin() {
 	for((j=1; j<$TOTAL_CELLS; j++))
 	do
-		if [[ ${playBoard[$j]} -eq $1 ]]
+		if [[ ${playBoard[$j]} == $1 ]]
 		then
-			computerBoard[$count]=$j
-			((count++))
+			computerBoard[$pos]=$j
+			((pos++))
 		fi
 	done
 }
 
 #computer turn
 function computerTurn() {
-		echo "Computer Turn"
-		checkIsComputerMoveToWin $computer
+	echo "Computer Turn"
+	checkWhoIsMoveToWin $computer
+	checkWhoIsMoveToWin $player
+	if [ $pos -ge 4 ];
+	then
 		moveToPosition
-		displayBoard
-		checkWinner $computer "Computer"
-		number=0
+	else
+		getPosition
+	fi
+	echo "Computer Position" $comPos
+	checkPositionAvailable $comPos $computer
+	displayBoard
+	checkWinner $computer "Computer"
+	number=0
 }
 
 #switch players
