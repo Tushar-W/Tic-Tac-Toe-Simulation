@@ -110,18 +110,26 @@ function playerTurn() {
 	number=1
 }
 
+#check is centre position available in play board
+function isCentreAvailable() {
+	if [[ ${playBoard[5]} == " " ]];
+	then
+		comPos=5
+	fi
+}
+
 #check is available corner in play board
 function isAvailableCorner() {
-	if [[ ${computerBoard[1]} == " " ]];
+	if [[ ${playBoard[1]} == " " ]];
 	then
 		comPos=1
-	elif [[ ${computerBoard[3]} == " " ]];
+	elif [[ ${playBoard[3]} == " " ]];
 	then
 		comPos=3
-	elif [[ ${computerBoard[7]} == " " ]];
+	elif [[ ${playBoard[7]} == " " ]];
 	then
 		comPos=7
-	elif [[ ${computerBoard[9]} == " " ]];
+	elif [[ ${playBoard[9]} == " " ]];
 	then
 		comPos=9
 	fi
@@ -160,8 +168,11 @@ function computerTurn() {
 	if [ $pos -ge 4 ];
 	then
 		moveToPosition
-	else
+	elif [ $pos -lt 4 ];
+	then
 		isAvailableCorner
+	else
+		isCentreAvailable
 	fi
 	echo "Computer Position" $comPos
 	checkPositionAvailable $comPos $computer
