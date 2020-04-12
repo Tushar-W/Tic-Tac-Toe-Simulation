@@ -1,7 +1,9 @@
 #!/bin/bash -x
 
 echo "Welcome To Tic-Tac-Toe Simulation"
-#declaration of array playBoard
+#declaration of dictionaries
+declare -A computerBoard
+#declaration of array
 declare -a playBoard
 #CONSTANTS
 NOUGHT="O"
@@ -104,12 +106,39 @@ function playerTurn() {
 	number=1
 }
 
+#computer moving To Winning Position
+function moveToPosition() {
+	j=1
+	while [ true ]
+	do
+		comPos=$((RANDOM%9 + 1))
+		if [[ ${computerBoard[$j]} != $comPos ]] && [[ ${computerBoard[$j+1]} != $comPos ]]
+		then
+			echo "Computer Position" $comPos
+			checkPositionAvailable $comPos $computer
+			break
+		fi
+	done
+}
+
+#computer check if he can win then play that move
+function checkIsComputerMoveToWin() {
+	count=1
+	for((j=1; j<$TOTAL_CELLS; j++))
+	do
+		if [[ ${playBoard[$j]} -eq $1 ]]
+		then
+			computerBoard[$count]=$j
+			((count++))
+		fi
+	done
+}
+
 #computer turn
 function computerTurn() {
 		echo "Computer Turn"
-		comPos=$((RANDOM%9 + 1))
-		echo "Computer Position" $comPos
-		checkPositionAvailable $comPos $computer
+		checkIsComputerMoveToWin $computer
+		moveToPosition
 		displayBoard
 		checkWinner $computer "Computer"
 		number=0
